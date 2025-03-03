@@ -189,7 +189,7 @@ const formsal = () => {
                         <div className="w-full bg-primary p-5">
                             <div className="flex items-center flex-col lg:flex-row w-full justify-between  mb-5">
                                 <div className="text-xl lg:text-3xl font-bold text-gray-300  ">Request Withdrawal</div>
-                                <div className="text-sm text-red-600">minimum of {currencies[1].symbol}{utils.bank_withdraw_min.toLocaleString()} to initiate withdrawal</div>
+                                <div className="text-sm text-red-600">minimum of {currencies[1].symbol}{Object.values(utils).length !== 0 && utils.bank_withdraw_min.toLocaleString()} to initiate withdrawal</div>
                             </div>
                             <div onClick={prefillBank} className="mb-5 w-fit px-5 py-2 rounded-md cursor-pointer bg-ash text-white">Use linked account</div>
                             <div className="grid md:grid-cols-2 grid-cols-1 gap-5 lg:gap-10 mb-5">
