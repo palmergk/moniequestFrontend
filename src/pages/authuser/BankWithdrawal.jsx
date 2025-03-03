@@ -11,7 +11,7 @@ import SelectComp from '../../GeneralComponents/SelectComp'
 import { useAtom } from 'jotai'
 import { BANK, UTILS, WALLET } from '../../services/store'
 import { Apis, AuthGetApi, AuthPostApi } from '../../services/API'
-import WithdrawComp from '../../AuthComponents/WIthdrawComp'
+import WithdrawComp from '../../AuthComponents/WithdrawComp'
 import { Link } from 'react-router-dom'
 
 
