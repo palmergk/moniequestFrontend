@@ -45,15 +45,6 @@ input[type=number]:focus {
   appearance: none;
 }
 
-input[type="date"]::before {
-  content: attr(placeholder);
-  color: gray;
-}
-
-input[type="date"]:valid::before {
-  display: none;
-}
-
 .ipt::placeholder {
   text-align: center;
 }
