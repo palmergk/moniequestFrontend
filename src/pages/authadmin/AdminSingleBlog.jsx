@@ -80,13 +80,13 @@ const AdminSingleBlog = () => {
                 })
 
                 setBlogImage({
-                    img: data.image ? `${imageurl}/blogs/${data.gen_id}/${data.image}` : null
+                    img: data.image ? data?.image : null
                 })
                 setSecondImg({
-                    img: data.second_paragraph_image ? `${imageurl}/blogs/${data.gen_id}/${data.second_paragraph_image}` : null,
+                    img: data.second_paragraph_image ? data?.second_paragraph_image : null,
                 })
                 setExtrasImg({
-                    img: data.extras_image ? `${imageurl}/blogs/${data.gen_id}/${data.extras_image}` : null
+                    img: data.extras_image ? data.extras_image : null
                 })
 
             }
@@ -100,6 +100,12 @@ const AdminSingleBlog = () => {
     useEffect(() => {
         FetchSingleBlog()
     }, [FetchSingleBlog])
+
+    const optimizeImageUrl = (url) => {
+        if (!url || !url.includes('cloudinary.com')) return url; // Return unchanged if not Cloudinary
+        const parts = url.split('/upload/');
+        return `${parts[0]}/upload/q_auto,f_webp/${parts[1]}`; // Insert transformations
+    };
 
     const handleUpload = (event) => {
         const file = event.target.files[0]
@@ -139,7 +145,6 @@ const AdminSingleBlog = () => {
 
     const Submit = async (e) => {
         e.preventDefault()
-
         if (!form.title || !form.feature || !form.main_header_title || !form.main_header_content ||
             !form.first_paragraph_title || !form.first_paragraph_content || !form.second_paragraph_title || !form.second_paragraph_content || !form.extras_title ||
             !form.extras_content || !form.conclusion) return ErrorAlert('Enter all required fields')
@@ -251,7 +256,7 @@ const AdminSingleBlog = () => {
                                 <label className='cursor-pointer w-full'>
                                     {blogImage.img ?
                                         <div className='relative'>
-                                            <img src={blogImage.img} className='w-full h-72 object-cover object-center'></img>
+                                            <img src={optimizeImageUrl(blogImage.img)} className='w-full h-72 object-cover object-center'></img>
                                             <div className="absolute -top-3 -right-3 main font-bold">
                                                 <FaEdit className='text-2xl text-lightgreen' />
                                             </div>
