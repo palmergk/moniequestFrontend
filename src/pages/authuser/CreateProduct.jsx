@@ -2,13 +2,13 @@ import React, { useEffect, useRef, useState } from 'react'
 import { SlClock } from "react-icons/sl";
 import { FiUploadCloud } from 'react-icons/fi'
 import { Link } from 'react-router-dom';
-import { ErrorAlert, tools } from '../../utils/pageUtils';
+import { ErrorAlert } from '../../utils/pageUtils';
 import Loader from '../../GeneralComponents/Loader';
 import { FaEdit } from 'react-icons/fa';
 import FormInput from '../../utils/FormInput';
 import { useAtom } from 'jotai';
-import { BANK } from '../../services/store';
-import { Apis, AuthPostApi } from '../../services/API';
+import { BANK, TOOLS } from '../../services/store';
+import { Apis, AuthGetApi, AuthPostApi } from '../../services/API';
 import ProductsLayout from '../../AuthComponents/ProductsLayout';
 import ToolsDiv from '../../AuthComponents/ToolsDiv';
 
@@ -16,6 +16,7 @@ import ToolsDiv from '../../AuthComponents/ToolsDiv';
 
 const CreateProduct = () => {
   const [bank] = useAtom(BANK)
+  const [tools] = useAtom(TOOLS)
   const [screen, setScreen] = useState(1)
   const [loading, setLoading] = useState(false)
   const [form, setForm] = useState({
@@ -30,7 +31,7 @@ const CreateProduct = () => {
     account_name: '',
     video_link: '',
     contact_detail: '',
-    other:''
+    other: ''
   })
   const [productImage, setProductImage] = useState({
     img: null,
@@ -53,6 +54,7 @@ const CreateProduct = () => {
   }
 
   const PrefillBank = () => {
+    if (!Object.entries(bank).key > 0) return ErrorAlert(`You haven't linked any bank to your account`)
     setForm({
       ...form,
       bank_name: bank.bank_name,
@@ -80,6 +82,7 @@ const CreateProduct = () => {
     const amt = parseInt(form.price.replace(/,/g, ''))
     if (isNaN(amt)) return ErrorAlert('Price amount must be a number')
     if (!productImage.image) return ErrorAlert('Upload profit tool image')
+
 
     const formbody = new FormData()
     formbody.append('image', productImage.image)
@@ -115,7 +118,7 @@ const CreateProduct = () => {
 
   const addCategory = (val) => {
     setForm((prev) => {
-      const { category } = prev
+      const category = prev.category || [];
       if (category.includes(val)) {
         return {
           ...prev,
@@ -130,9 +133,8 @@ const CreateProduct = () => {
     })
 
   }
-  
-  
- 
+
+
   return (
     <ProductsLayout>
       <div className='w-11/12 mx-auto'>
@@ -222,7 +224,7 @@ const CreateProduct = () => {
                     <div className="text-xs text-zinc-100">Specify Your Tool or eBook Category</div>
                   </div>
                   <div className="w-full md:w-1/2">
-                  <FormInput placeholder='Enter category' name='other' value={form.other} onChange={formHandler} className='!rounded-none' />
+                    <FormInput placeholder='Enter category' name='other' value={form.other} onChange={formHandler} className='!rounded-none' />
                   </div>
                 </div>
               </div>
