@@ -23,6 +23,7 @@ const SellCrypto = () => {
     const [isPageLoading, setIsPageLoading] = useState(!navigator.onLine)
     const [loading, setLoading] = useState(false)
     const [utils] = useAtom(UTILS)
+    console.log(utils)
     const [cryptos] = useAtom(CRYPTOS)
     const [forms, setForms] = useState({
         amount: '',
