@@ -45,7 +45,7 @@ const notification_urls = {
     all_notis: notification + 'all-notis',
     update_all_notis: notification + 'update-all-notis',
     update_single_notis: notification + 'update-single-notis',
-    delete_notis: notification + 'delete-notis',
+    delete_notis: notification + 'delete-notis'
 }
 
 const transaction = 'api/transactions/'
@@ -62,8 +62,7 @@ const trans_url = {
     single_giftcard_order: transaction + 'single_giftcard_history',
     request_withdrawal: transaction + 'request_withdrawal',
     latest_withdrawals: transaction + 'latest_withdrawals',
-    all_trans: transaction + 'get_alltrans',
-
+    all_trans: transaction + 'get_alltrans'
 }
 
 const admin = 'api/admin/'
