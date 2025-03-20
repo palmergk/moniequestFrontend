@@ -276,7 +276,7 @@ export const exchangefaqs = [
     },
     {
         title: `Q6: Why do you need my NIN?`,
-        desc: `In compliance with Nigerian financial regulations, your BVN helps us verify your identity and protect your account from unauthorized access or fraud. By confirming that each user is who they claim to be, we uphold a safer platform and maintain a trusted environment for all our customers.`
+        desc: `In compliance with Nigerian financial regulations, your NIN helps us verify your identity and protect your account from unauthorized access or fraud. By confirming that each user is who they claim to be, we uphold a safer platform and maintain a trusted environment for all our customers.`
     },
     {
         title: `Q7: How secure are my Transactions?`,
@@ -287,11 +287,11 @@ export const exchangefaqs = [
 export const profitfaqs = [
     {
         title: `Q1: What are Productive Tools?`,
-        desc: `Profit Tools is a collection of eBooks, graphic and AI tools, and resources designed to enhance productivity and skill-building for our users.`
+        desc: `Productive tool is a collection of eBooks, graphic and AI tools, and resources designed to enhance productivity and skill-building for our users.`
     },
     {
         title: `Q2: How can I access Productive Tools?`,
-        desc: `Profit Tools are available to all registered users. Simply log in to your account and navigate to the 'Profit Tools' section to explore the available resources.`
+        desc: `Productive tools are available to all registered users. Simply log in to your account and navigate to the 'Productive tools' section to explore the available resources.`
     },
     {
         title: `Q3: Can I contribute my own tools to Productive Tools?`,
@@ -325,8 +325,8 @@ export const examplefaqs = [
         desc: `We places a high priority on your transaction security. We use robust encryption methods to protect your data and continuously monitor our platform to stay ahead of potential threats. If you ever have concerns or questions, our dedicated support team is always ready to help.`
     },
     {
-        title: `What are Profit Tools?`,
-        desc: `Profit Tools is a collection of eBooks, graphic and AI tools, and resources designed to enhance productivity and skill-building for our users.`
+        title: `What are Productive Tools?`,
+        desc: `Productive tool is a collection of eBooks, graphic and AI tools, and resources designed to enhance productivity and skill-building for our users.`
     }
 ]
 

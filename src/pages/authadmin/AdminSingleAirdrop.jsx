@@ -10,6 +10,7 @@ import SelectComp from '../../GeneralComponents/SelectComp'
 import FormButton from '../../utils/FormButton'
 import { Apis, AuthGetApi, AuthPostApi, AuthPutApi, imageurl } from '../../services/API'
 import ModalLayout from '../../utils/ModalLayout'
+import { MdDelete } from "react-icons/md";
 
 const statuses = [
     "open", "closed"
@@ -45,6 +46,7 @@ const AdminSingleAirdrop = () => {
         telegram_link: '',
         website_link: '',
         status: '',
+        steps: []
     })
     const [banner, setBanner] = useState({
         img: null,
@@ -64,6 +66,7 @@ const AdminSingleAirdrop = () => {
             [event.target.name]: event.target.value
         })
     }
+
 
     const FetchSingleAirdrop = useCallback(async () => {
         try {
@@ -86,6 +89,7 @@ const AdminSingleAirdrop = () => {
                     twitter_link: data.twitter_link || '',
                     telegram_link: data.telegram_link || '',
                     website_link: data.website_link || '',
+                    steps: JSON.parse(data.steps) || []
                 })
                 setLogo({
                     img: data?.logo_image || null
@@ -132,6 +136,7 @@ const AdminSingleAirdrop = () => {
     const Submit = async (e) => {
         e.preventDefault()
 
+        if (form.steps.length === 0) return ErrorAlert(`Add at least one step to this airdrop`)
         if (!form.title || !form.category || !form.about || !form.blockchain || !form.type || !form.format || !form.level || !form.video_guide_link || !form.referral_link) return ErrorAlert('Enter all required fields')
 
         const formbody = new FormData()
@@ -152,6 +157,9 @@ const AdminSingleAirdrop = () => {
         formbody.append('telegram_link', form.telegram_link)
         formbody.append('twitter_link', form.twitter_link)
         formbody.append('website_link', form.website_link)
+        form.steps.forEach(ele => {
+            formbody.append('steps', ele)
+        })
 
         setLoading({ status: true, desc: 'updating' })
         try {
@@ -194,6 +202,33 @@ const AdminSingleAirdrop = () => {
         const parts = url.split('/upload/');
         return `${parts[0]}/upload/q_auto,f_webp/${parts[1]}`; // Insert transformations
     };
+
+
+    const addStep = () => {
+        setForm(prevForm => ({
+            ...prevForm,
+            steps: [...prevForm.steps, ""]
+        }));
+    };
+
+    const handleStepChange = (index, value) => {
+        setForm(prevForm => {
+            const updatedSteps = [...prevForm.steps];
+            updatedSteps[index] = value;
+            return { ...prevForm, steps: updatedSteps };
+        });
+    };
+
+    const removeStep = (index) => {
+        setForm(prevForm => {
+            const updatedSteps = [...prevForm.steps];
+            updatedSteps.splice(index, 1);
+            return { ...prevForm, steps: updatedSteps };
+        });
+    };
+
+
+
     return (
         <AdminPageLayout>
             <div className='w-11/12 mx-auto'>
@@ -286,7 +321,31 @@ const AdminSingleAirdrop = () => {
                                     <FormInput placeholder='Airdrop type' name='type' value={form.type} onChange={formHandler} />
                                 </div>
                             </div>
-                            <div className='flex flex-col gap-6'>
+                            <div className='flex flex-col gap-6 '>
+                                <div className="flex flex-col gap-2">
+                                    <label className="font-medium text-lightgreen">*Steps:</label>
+                                    <div className='flex flex-col gap-3'>
+                                        {form.steps.map((step, index) => (
+                                            <div key={index} className="flex items-center gap-2 w-full">
+                                                <div className="w-full">
+                                                    <FormInput
+                                                        formtype='textarea'
+                                                        label={`step ${index + 1}`}
+                                                        value={step}
+                                                        onChange={(e) => handleStepChange(index, e.target.value)}
+                                                        className={`!h-20`}
+                                                    ></FormInput>
+                                                </div>
+                                                <div onClick={() => removeStep(index)} className="bg-red-500 cursor-pointer p-2 rounded-full">
+                                                    <MdDelete className="text-white " />
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <button type="button" className="bg-ash text-white px-4 py-2 rounded mt-2" onClick={addStep}
+                                    >Add Step</button>
+                                </div>
+
                                 <div className='flex flex-col gap-2'>
                                     <div className='text-lightgreen capitalize font-medium'>*format</div>
                                     <FormInput placeholder='Airdrop format' name='format' value={form.format} onChange={formHandler} />

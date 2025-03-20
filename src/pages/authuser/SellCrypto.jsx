@@ -12,7 +12,7 @@ import Loader from '../../GeneralComponents/Loader';
 import ExchangeLayout from '../../AuthComponents/ExchangeLayout';
 import { Apis, AuthPostApi } from '../../services/API';
 import { useAtom } from 'jotai';
-import { CRYPTOS, UTILS } from '../../services/store';
+import { CRYPTOS, PROFILE, UTILS } from '../../services/store';
 
 
 const SellCrypto = () => {
@@ -20,9 +20,10 @@ const SellCrypto = () => {
     const [check, setCheck] = useState(false)
     const tags = ['BUY', 'SELL']
     const [modal, setModal] = useState(false)
-    const [isPageLoading, setIsPageLoading] = useState(!navigator.onLine) 
+    const [isPageLoading, setIsPageLoading] = useState(!navigator.onLine)
     const [loading, setLoading] = useState(false)
     const [utils] = useAtom(UTILS)
+    const [user] = useAtom(PROFILE)
     const [cryptos] = useAtom(CRYPTOS)
     const [forms, setForms] = useState({
         amount: '',
@@ -62,15 +63,14 @@ const SellCrypto = () => {
     })
 
     const [inNaira, setInNaira] = useState('')
-    const [amountToReceive, setAmountToReceive] = useState('')
+   
     useEffect(() => {
-        if (forms.amount && forms.gas_fee) {
-            const toPay = parseFloat(forms.amount.replace(/,/g, '')) - parseFloat(forms.gas_fee)
-            setAmountToReceive(toPay.toLocaleString())
+        if (forms.amount) {
+            const toPay = parseFloat(forms.amount.replace(/,/g, ''))
             const naira = toPay * rate
             setInNaira(naira.toLocaleString())
         }
-    }, [forms.amount, rate, forms.gas_fee])
+    }, [forms.amount, rate])
 
     const submit = (e) => {
         e.preventDefault()
@@ -102,7 +102,6 @@ const SellCrypto = () => {
         setLoading(true)
         const formdata = {
             amount: parseFloat(forms.amount),
-            gas_fee: parseFloat(forms.gas_fee),
             crypto_currency: forms.crypto,
             type: 'sell',
             trans_hash: forms.trans_hash,
@@ -153,7 +152,6 @@ const SellCrypto = () => {
                 wallet_add: crypto.wallet_add,
                 minimum: crypto.sell_min,
                 limit: crypto.sell_max,
-                gas_fee: crypto.gas_fee
             }));
         } else {
             setForms({ ...forms, network: '', wallet_add: '' });
@@ -242,7 +240,7 @@ const SellCrypto = () => {
                                                 </option>
                                             ))}
                                     </select>
-                                    <div className="w- text-red-600 text-xs">Please Note: you can only sell a minimum of ${forms.minimum} and maximum of ${forms.limit.toLocaleString()}. verify your account to increase limit</div>
+                                    {forms.crypto && <div className="text-red-600 text-xs">Please Note: you can only sell a minimum of ${forms.minimum} and maximum of ${forms.limit.toLocaleString()} of {forms.crypto}. {user?.kyc_verified === 'false' ? 'verify your account to increase limit' : ''}</div>}
                                 </div>
                                 <div className="flex w-full items-start gap-2 flex-col  ">
                                     <div className="font-bold text-lg">Amount:</div>
@@ -254,14 +252,7 @@ const SellCrypto = () => {
                                     </div>
 
                                 </div>
-                                <div className="flex w-full item-center text-sm justify-between">
-                                    <div>Gas fee</div>
-                                    <div>${forms.gas_fee}</div>
-                                </div>
-                                <div className="flex w-full item-center text-sm justify-between">
-                                    <div>Amount to receive</div>
-                                    <div>${amountToReceive}</div>
-                                </div>
+                               
                                 <div className="flex item-center text-sm justify-between w-full">
                                     <div>Amount in Naira</div>
                                     <div>₦{inNaira}</div>
@@ -280,7 +271,7 @@ const SellCrypto = () => {
                             <div className="flex w-11/12 lg:w-2/3  mx-auto mt-5 items-start gap-5 flex-col">
 
                                 <div className="flex items-start gap-2 flex-col w-full">
-                                    <div className="text-center  w-full text-2xl">Selling <span className='text-red-600 font-bold'>{currencies[0].symbol}{forms.amount.toLocaleString()}(${amountToReceive.toLocaleString()})</span> worth of {forms.symbol} at <br /> <span className='text-red-600 font-bold'>{currencies[1].symbol}{inNaira}</span></div>
+                                    <div className="text-center  w-full text-2xl">Selling <span className='text-red-600 font-bold'>{currencies[0].symbol}{forms.amount.toLocaleString()}</span> worth of {forms.crypto} at <br /> <span className='text-red-600 font-bold'>{currencies[1].symbol}{inNaira}</span></div>
                                 </div>
                                 <div className="text-sm text-center w-full">kindly send tokens to the wallet address below</div>
 
