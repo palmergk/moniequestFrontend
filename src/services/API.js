@@ -121,10 +121,15 @@ const admin_urls = {
     get_tools: admin + 'get_tools',
     delete_tool: admin + 'delete_tool',
     get_subs: admin + 'get_subs',
-    add_giftcard: admin + 'add_giftcard',
-    update_giftcard: admin + 'update_giftcard',
-    get_giftcards: admin + 'get_giftcards',
-    delete_giftcard: admin + 'delete_giftcard',
+
+    add_giftcard:admin + 'add_giftcard',
+    update_giftcard:admin + 'update_giftcard',
+    get_giftcards: admin +'get_giftcards',
+    delete_giftcard:admin + 'delete_giftcard',
+    addcard_category:admin + 'addcard_category',
+    updatecard_category:admin + 'updatecard_category',
+    get_single_card:admin + 'get_single_card',
+    deletecard_category:admin + 'deletecard_category',
     update_permissions: admin + 'update_permissions'
 }
 
