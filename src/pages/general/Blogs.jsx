@@ -56,7 +56,7 @@ const Blogs = () => {
                                 </div>
                                 <div className='w-20 h-3 rounded-full bg-slate-400 mx-4'></div>
                             </div>
-                            <div className='grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-4'>
+                            <div className='grid grid-cols-1 gap-5 md:grid-cols-3 lg:grid-cols-4'>
                                 {new Array(4).fill(0).map((_, i) => (
                                     <div key={i} className='w-full bg-black rounded-xl p-2'>
                                         <div className=" bg-gray-500 h-40 rounded-xl w-full"></div>
@@ -90,7 +90,7 @@ const Blogs = () => {
                                                     to={`/blogs/airdrop`} onClick={MoveToTop}
                                                     className="w-fit px-4 text-xl hover:text-lightgreen text-center">view all</Link>
                                             </div>
-                                            <div className="w-full grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-4">
+                                            <div className="w-full grid grid-cols-1  gap-5 md:grid-cols-2 lg:grid-cols-4">
                                                 {airdropBlogs.slice(0, 10).map((item, i) => (
                                                     <BlogDiv key={i} item={item} />
                                                 ))}
@@ -108,7 +108,7 @@ const Blogs = () => {
                                                     to={`/blogs/trading`} onClick={MoveToTop}
                                                     className="w-fit px-4 text-xl hover:text-lightgreen text-center">view all</Link>
                                             </div>
-                                            <div className="w-full grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-4">
+                                            <div className="w-full grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
                                                 {tradingBlogs.slice(0, 10).map((item, i) => (
                                                     <BlogDiv key={i} item={item} />
                                                 ))}
@@ -126,7 +126,7 @@ const Blogs = () => {
                                                     to={`/blogs/personal_finance`} onClick={MoveToTop}
                                                     className="w-fit px-4 text-xl hover:text-lightgreen text-center">view all</Link>
                                             </div>
-                                            <div className="w-full grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-4">
+                                            <div className="w-full grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
                                                 {personalFinanceBlogs.slice(0, 10).map((item, i) => (
                                                     <BlogDiv key={i} item={item} />
                                                 ))}

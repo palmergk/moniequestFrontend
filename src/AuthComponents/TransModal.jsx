@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { currencies } from './AuthUtils'
 import moment from 'moment'
+import { FaRegCopy } from "react-icons/fa6";
+import { SuccessAlert } from '../utils/pageUtils';
 
 const TransModal = ({ trans }) => {
     const [inNaira, setInNaira] = useState('')
@@ -16,12 +18,18 @@ const TransModal = ({ trans }) => {
         setInNaira(naira.toLocaleString())
     }, [trans])
 
+
+    const copyToClipBoard = () => {
+        navigator.clipboard.writeText(trans.trans_hash).then(() => {
+            SuccessAlert(`transaction ID copied successfully`)
+        }).catch((error) => console.log(`failed to copy transaction ID, ${error}`))
+    }
     return (
         <div className="flex w-full items-start gap-2 flex-col poppins">
             <div className="flex items-center border-b pb-2 border-zinc-600 w-full justify-between">
                 <div className="">Transaction</div>
                 {trans.crypto_currency && <div className="capitalize ">Crypto Currency</div>}
-                {trans.bank_user && <div className="capitalize ">Bank Withdrawal</div>}
+                {trans.bank_holder && <div className="capitalize ">Bank Withdrawal</div>}
                 {trans.brand && <div className="capitalize ">Gift Card</div>}
             </div>
             {trans?.type && <div className="flex items-center border-b pb-2 border-zinc-600 w-full justify-between">
@@ -36,7 +44,7 @@ const TransModal = ({ trans }) => {
                 <div className="">Transaction Amount</div>
                 <div className="capitalize ">{currencies[0].symbol}{trans.amount && trans.amount.toLocaleString()}</div>
             </div>}
-            {trans.bank_user && <div className="flex items-center border-b pb-2 border-zinc-600 w-full justify-between">
+            {trans.bank_holder && <div className="flex items-center border-b pb-2 border-zinc-600 w-full justify-between">
                 <div className="">Transaction Amount</div>
                 <div className="capitalize ">{currencies[1].symbol}{trans.amount && trans.amount.toLocaleString()}</div>
             </div>}
@@ -50,12 +58,12 @@ const TransModal = ({ trans }) => {
                 <div className="capitalize">{currencies[0].symbol}{parseFloat(trans?.amount) + parseFloat(trans?.gas_fee)}</div>
             </div>}
 
-            {!trans.bank_user && <div className="flex items-center border-b pb-2 border-zinc-600 w-full justify-between">
+            {!trans.bank_holder && <div className="flex items-center border-b pb-2 border-zinc-600 w-full justify-between">
                 <div className="">Amount in NGN</div>
                 <div className="capitalize ">{currencies[1].symbol}{inNaira}</div>
             </div>}
 
-            {!trans.bank_user && <div className="flex items-center border-b pb-2 border-zinc-600 w-full justify-between">
+            {!trans.bank_holder && <div className="flex items-center border-b pb-2 border-zinc-600 w-full justify-between">
                 <div className="">Rate</div>
                 <div className="capitalize ">{currencies[1].symbol}{trans?.rate}/$</div>
             </div>}
@@ -68,22 +76,30 @@ const TransModal = ({ trans }) => {
                 <div className="">Order ID</div>
                 <div className="capitalize ">{trans?.order_no}</div>
             </div>}
-            {trans?.bank_user && <div className="flex items-center border-b pb-2 border-zinc-600 w-full justify-between">
-                <div className="">Transaction Number</div>
+            {trans.crypto_currency && trans.trans_hash !== null && 
+            <div className="flex md:items-center flex-col md:flex-row border-b pb-2 border-zinc-600 w-full justify-between">
+                <div className="">Txn ID/hash</div>
+                <div className="flex items-center gap-2">
+                    <div className=" truncate text-sm">{trans?.trans_hash}</div>
+                    <FaRegCopy onClick={copyToClipBoard} className='text-lightgreen text-xl cursor-pointer' />
+                </div>
+            </div>}
+            {trans?.bank_holder && <div className="flex items-center border-b pb-2 border-zinc-600 w-full justify-between">
+                <div className="">Transaction Reference</div>
                 <div className="">{trans?.reference_id ? trans?.reference_id : 'Not confirmed'}</div>
             </div>}
-            {trans?.bank_name && <div className="flex items-center border-b pb-2 border-zinc-600 w-full justify-between">
+            {trans?.bank_holder && <div className="flex items-center border-b pb-2 border-zinc-600 w-full justify-between">
                 <div className="">Beneficiary</div>
-                <div className="">{trans?.bank_name}</div>
+                <div className="">{trans?.bank_holder}</div>
             </div>}
             {trans?.account_number && <div className="flex items-center border-b pb-2 border-zinc-600 w-full justify-between">
                 <div className="">Beneficiary Account</div>
                 <div className="">{trans?.account_number}</div>
             </div>}
 
-            {trans?.bank_user && <div className="flex items-center border-b pb-2 border-zinc-600 w-full justify-between">
+            {trans?.bank_holder && <div className="flex items-center border-b pb-2 border-zinc-600 w-full justify-between">
                 <div className="">Beneficiary Bank</div>
-                <div className="">{trans?.bank_user}</div>
+                <div className="">{trans?.bank_name}</div>
             </div>}
             {trans?.code && <div className="flex items-center border-b pb-2 border-zinc-600 w-full justify-between">
                 <div className="">Gift-Card Code</div>
