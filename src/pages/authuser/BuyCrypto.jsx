@@ -82,7 +82,7 @@ const BuyCrypto = () => {
             }
             setGasFee(gas.toLocaleString())
             setAmountToPay(toPay.toLocaleString())
-            setInUSD(Number(usd).toFixed(2).toLocaleString())
+            setInUSD(usd.toLocaleString())
             setInNaira(naira.toLocaleString())
         }
     }, [forms.amount, forms.gas_fee, selectedCurr.name])
