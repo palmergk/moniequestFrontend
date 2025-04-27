@@ -69,11 +69,14 @@ const BuyCrypto = () => {
             let toPay;
             let naira;
             let usd;
+            let amt =parseFloat(forms.amount.replace(/,/g, ''))
             if (selectedCurr.name === 'USD') {
                 gas = parseFloat(forms.gas_fee)
                 toPay = parseFloat(forms.amount.replace(/,/g, '')) + gas
                 usd = toPay
                 naira = toPay * rate
+            //    const  newamt = amt / rate
+            //     setForms({...forms,amount:newamt.toLocaleString()})
             } else {
                 gas = parseFloat(forms.gas_fee) * parseFloat(rate)
                 toPay = parseFloat(forms.amount.replace(/,/g, '')) + gas
